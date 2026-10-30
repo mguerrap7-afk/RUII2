@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ruina_m - Versión 2</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      background: #f2f4f7;
+      color: #1f2937;
+      margin: 0;
+      padding: 24px 16px;
+    }
+    .contenedor {
+      max-width: 560px;
+      margin: 0 auto;
+      background: #fff;
+      border-radius: 12px;
+      padding: 24px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+    }
+    h1 { margin-top: 0; font-size: 1.5rem; }
+    h2 { font-size: 1.1rem; margin: 20px 0 8px; color: #374151; }
+    label { display: block; margin: 10px 0 4px; font-size: 0.95rem; }
+    input {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      font-size: 1rem;
+    }
+    button {
+      margin-top: 18px;
+      width: 100%;
+      padding: 12px;
+      background: #2563eb;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+    button:hover { background: #1d4ed8; }
+    #resultados {
+      margin-top: 20px;
+      padding: 16px;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      display: none;
+    }
+    #resultados p { margin: 6px 0; }
+    .total { font-weight: bold; color: #065f46; }
+    .error { color: #b91c1c; }
+  </style>
+</head>
+<body>
+  <div class="contenedor">
+    <h1>Ruina_m — Versión 2</h1>
+
+    <h2>Boletos de Q35</h2>
+    <label for="num1">Ingrese el primer número:</label>
+    <input type="number" id="num1">
+    <label for="num2">Ingrese el segundo número:</label>
+    <input type="number" id="num2">
+
+    <h2>Boletos de Q10</h2>
+    <label for="num3">Ingrese el tercer número:</label>
+    <input type="number" id="num3">
+    <label for="num4">Ingrese el cuarto número:</label>
+    <input type="number" id="num4">
+
+    <h2>Dólares</h2>
+    <label for="num7">Ingrese la cantidad de dólares:</label>
+    <input type="number" id="num7" step="any">
+
+    <button onclick="calcular()">Calcular</button>
+
+    <div id="resultados"></div>
+  </div>
+
+  <script>
+    function leer(id) {
+      return parseFloat(document.getElementById(id).value);
+    }
+
+    function calcular() {
+      // Ingreso de datos
+      const num1 = leer("num1");
+      const num2 = leer("num2");
+      const num3 = leer("num3");
+      const num4 = leer("num4");
+      const num7 = leer("num7");
+
+      const salida = document.getElementById("resultados");
+      salida.style.display = "block";
+
+      if ([num1, num2, num3, num4, num7].some(isNaN)) {
+        salida.innerHTML = '<p class="error">Por favor, llene todos los campos.</p>';
+        return;
+      }
+
+      // Proceso (sin resultado3 ni resultado31)
+      const resultado1 = num2 - num1 + 1;
+      const resultado2 = num4 - num3 + 1;
+      const resultado4 = num7 * 7;
+      const resultado11 = resultado1 * 35;
+      const resultado21 = resultado2 * 10;
+      const subtotal1 = resultado11 + resultado21;
+      const total1 = resultado4 - subtotal1;
+
+      // Salida de datos
+      salida.innerHTML = `
+        <p>El total de personas ingresadas de Q35 es: ${resultado1}</p>
+        <p>La cantidad de dinero es: Q${resultado11.toFixed(2)}</p>
+        <p>El total de personas ingresadas de Q10 es: ${resultado2}</p>
+        <p>La cantidad de dinero es: Q${resultado21.toFixed(2)}</p>
+        <p>El total de dinero es: Q${subtotal1.toFixed(2)}</p>
+        <p>El total de dólares es: $${num7.toFixed(2)}</p>
+        <p>El total de dólares en quetzales es de: Q${resultado4.toFixed(2)}</p>
+        <p class="total">El total de dinero en quetzales es de: Q${total1.toFixed(2)}</p>
+      `;
+    }
+  </script>
+</body>
+</html>
